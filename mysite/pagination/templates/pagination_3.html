@@ -1,0 +1,30 @@
+{% include "list.html" %}
+{% if customers.has_previous %}
+    <a href="?page={{ customers.previous_page_number }}">Previous page</a>
+
+    {% if customers.number > 3 %}
+        <a href="?page=1">1</a>
+        {% if customers.number > 4 %}
+            <span>...</span>
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+{% for num in customers.paginator.page_range %}
+    {% if customers.number == num %}
+        <a href="?page= {{ num }}">{{ num }}</a>
+    {% elif num > customers.number|add:'-3' and num < customers.number|add:'3' %}
+        <a href="?page= {{ num }}">{{ num }}</a>
+    {% endif %}
+{% endfor %}
+
+{% if customers.has_next %}
+    {% if customers.number < customers.paginator.num_pages|add:'-3' %}
+        <span>...</span>
+        <a href="?page={{ customers.paginator.num_pages }}">{{ customers.paginator.num_page }}</a>
+    {% elif customers.number < customers.paginator.num_pages|add:'-2' %}
+        <a href="?page={{ customers.paginator.numpages }}">{{ customers.paginator.num_pages }}</a>
+    {% endif %}
+
+    <a href="?page= {{ customers.next_page_number }}">Next Page</a>
+{% endif %}
